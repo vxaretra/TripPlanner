@@ -11,6 +11,7 @@ export default function HomePage() {
   return (
     <>
     <h1>HOMEPAGE</h1>
+    <h2>Saerom</h2>
     <button onClick={handleClick}>Log out</button>
     </>
   );

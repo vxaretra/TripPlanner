@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./AppLayout";
 
 import HomePage from "../pages/HomePage";
-import AuthPage from "../pages/AuthPage";
+import LoginPage from "../pages/LoginPage";
 
 import { Spin } from "antd";
 import useAuth from "../hooks/auth";
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-  { path: "/login", element: <AuthPage /> },
+  { path: "/login", element: <LoginPage /> },
 ]);
 
 export default function App() {

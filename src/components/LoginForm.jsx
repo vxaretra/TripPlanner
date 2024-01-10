@@ -36,34 +36,6 @@ export default function LoginForm() {
 
   return (
     <>
-      <Title style={{ textAlign: "center", marginBottom: "1.2em" }} level={2} >Sign in to your account</Title>
-      <Form name="login_form" layout="vertical" form={form} onFinish={handleSubmit}>
-        <Form.Item
-          label="Email address"
-          name="email"
-          rules={[
-            { required: true, message: "Please fill your email" },
-            { type: "email", message: "Invalid email input" },
-          ]}
-        >
-          <Input prefix={<UserOutlined />} />
-        </Form.Item>
-        <Form.Item 
-        label="Password"
-          name="password"
-          rules={[
-            { required: true, message: "Please fill your password" },
-          ]}
-        >
-          <Input prefix={<LockOutlined />} />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: "100%" }} disabled={isSubmitting}>
-            Log in
-          </Button>
-        </Form.Item>
-      </Form>
-      {message === null ? "" : <Alert style={{ textAlign: "center" }} message={message} type="error" />}
     </>
   );
 }

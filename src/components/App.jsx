@@ -5,8 +5,8 @@ import AppLayout from "./AppLayout";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 
-import { Spin } from "antd";
 import useAuth from "../hooks/auth";
+import { Spinner } from "flowbite-react";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +28,7 @@ export default function App() {
 
   const { isAuthenticating } = useAuth();
   if (isAuthenticating) {
-    return <Spin size="large" />;
+    return <Spinner size="xl" /> 
   }
 
   return <RouterProvider router={router} />;

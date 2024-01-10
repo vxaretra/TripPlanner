@@ -1,3 +1,4 @@
+import LoginForm from "../components/LoginForm";
 import useAuth from "../hooks/auth";
 import { Navigate } from "react-router-dom";
 
@@ -8,8 +9,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="h-screen mx-auto">
-
+    <div className="grid items-center px-4 h-screen mx-auto lg:w-1/4">
+      <LoginForm />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { auth } from "../lib/firebase/firebase";
+import { auth } from "../lib/firebase";
 
 export default function HomePage() {
   async function handleClick() {

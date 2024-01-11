@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Alert, Button, Label, TextInput } from "flowbite-react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../lib/firebase/firebase";
+import { auth } from "../lib/firebase";
 
 export default function LoginForm() {
   const {

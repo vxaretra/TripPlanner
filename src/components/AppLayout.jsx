@@ -17,9 +17,8 @@ export default function AppLayout() {
       <Sidebar className={`fixed w-64 z-40 transition-transform ${show ? "" : "-translate-x-full"} sm:translate-x-0`}>
         <Sidebar.Items>
           <Sidebar.ItemGroup>
-            <Link to={"/"}><Sidebar.Item>Dashboard</Sidebar.Item></Link>
-            <Link to={"/tasks"}><Sidebar.Item>Tasks</Sidebar.Item></Link>
-            
+            <Sidebar.Item as={Link} to="/">Home</Sidebar.Item>
+            <Sidebar.Item as={Link} to="/trips">Trips</Sidebar.Item>
           </Sidebar.ItemGroup>
         </Sidebar.Items>
       </Sidebar>

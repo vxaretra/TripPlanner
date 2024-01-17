@@ -7,6 +7,8 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import TripsPage from "../pages/TripsPage";
 import NewTripPage from "../pages/NewTripPage";
+import RegisterPage from "../pages/RegisterPage";
+
 
 import useAuth from "../hooks/auth";
 
@@ -30,6 +32,7 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
 ]);
 
 export default function App() {

@@ -4,6 +4,7 @@ import AppLayout from "./AppLayout";
 
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
 
 import useAuth from "../hooks/auth";
 import { Spinner } from "flowbite-react";
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
 ]);
 
 export default function App() {

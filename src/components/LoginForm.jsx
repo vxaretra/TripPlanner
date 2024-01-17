@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Alert, Button, Label, TextInput } from "flowbite-react";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -43,7 +43,10 @@ export default function LoginForm() {
       >
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="email" value="Email address" />
+            <div className="flex justify-between">
+              <Label htmlFor="email" value="Email address" />
+              <span className="text-sm">Don&apos;t have an account? <Link to={"/register"} className="font-semibold text-[#0e7490]">Register</Link></span>
+            </div>
           </div>
           <TextInput
             color={errors.email ? "failure" : "gray"}

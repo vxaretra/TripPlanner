@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Alert, Button, Label, TextInput } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../lib/firebase/firebase";
+import { auth } from "../lib/firebase";
 
 
 export default function RegisterForm() {

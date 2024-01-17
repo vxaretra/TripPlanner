@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Alert, Button, Label, TextInput } from "flowbite-react";
@@ -10,30 +9,26 @@ export default function LoginForm() {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      setIsSubmitting(true);
       await signInWithEmailAndPassword(auth, data.email, data.password);
       navigate("/", { replace: true });
     } catch (error) {
       switch (error.code) {
         case "auth/invalid-login-credentials":
-          setError("login", {
+          setError("root", {
             message: "Please check your email and password and try again.",
           });
           break;
         default:
-          setError("login", {
-            message: "Something wrong with the server, please try again later",
+          setError("root", {
+            message: "Something wrong with the server, please try again later.",
           });
       }
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -51,10 +46,15 @@ export default function LoginForm() {
             <Label htmlFor="email" value="Email address" />
           </div>
           <TextInput
-            id="email"
-            type="email"
-            required
-            {...register("email", { required: true })}
+            color={errors.email ? "failure" : "gray"}
+            helperText={errors.email && <span>{errors.email.message}</span>}
+            {...register("email", {
+              required: "Please fill your email.",
+              pattern: {
+                value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+                message: "Email not valid.",
+              },
+            })}
           />
         </div>
         <div>
@@ -62,18 +62,22 @@ export default function LoginForm() {
             <Label htmlFor="password" value="Password" />
           </div>
           <TextInput
-            id="password"
             type="password"
-            required
-            {...register("password", { required: true })}
+            color={errors.password ? "failure" : "gray"}
+            helperText={
+              errors.password && <span>{errors.password.message}</span>
+            }
+            {...register("password", {
+              required: "Please fill your password.",
+            })}
           />
         </div>
         <Button type="submit" disabled={isSubmitting}>
           Sign in
         </Button>
-        {errors.login && (
+        {errors.root && (
           <Alert color="failure">
-            <span>{errors.login.message}</span>
+            <span>{errors.root.message}</span>
           </Alert>
         )}
       </form>

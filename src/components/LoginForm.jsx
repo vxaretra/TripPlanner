@@ -51,7 +51,7 @@ export default function LoginForm() {
             {...register("email", {
               required: "Please fill your email.",
               pattern: {
-                value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
                 message: "Email not valid.",
               },
             })}

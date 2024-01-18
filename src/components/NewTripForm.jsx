@@ -1,70 +1,21 @@
 import { Button, Card, Label, TextInput, Textarea } from "flowbite-react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { db } from "../lib/firebase";
+import { auth, db } from "../lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
 
-function ItineraryInputCard({
-  itineraryIdx,
-  control,
-  register,
-  deleteItinerary,
-}) {
-  const { fields, remove, append } = useFieldArray({
-    control,
-    name: `itineraries.${itineraryIdx}.places`,
-  });
-
-  return (
-    <Card>
-      <div className="flex justify-between">
-        <h1 className="text-2xl font-bold">{`Day ${itineraryIdx + 1}`}</h1>
-        <Button
-          className="w-fit"
-          type="button"
-          size="xs"
-          onClick={() => deleteItinerary()}
-        >
-          X
-        </Button>
-      </div>
-      <div className="flex items-center">
-        <TextInput
-          addon="Rp."
-          pattern="^\d*\.?\d*$"
-          {...register(`itineraries.${itineraryIdx}.cost`, {
-            pattern: /^\d*\.?\d*$/,
-            setValueAs: v => parseFloat(v),
-          })}
-        ></TextInput>
-      </div>
-      <Label value="Places:" />
-      {fields.map((field, idx) => {
-        return (
-          <div key={field.id} className="flex">
-            <TextInput
-              className="grow"
-              required
-              {...register(`itineraries.${itineraryIdx}.places.${idx}`)}
-            ></TextInput>
-            <Button className="w-fit" type="button" onClick={() => remove(idx)}>
-              X
-            </Button>
-          </div>
-        );
-      })}
-      <Button className="w-fit" type="button" onClick={() => append("")}>
-        Add place
-      </Button>
-    </Card>
-  );
-}
+import CrossClose from "../assets/cross-close.svg";
 
 export default function NewTripForm() {
-  const { control, register, handleSubmit } = useForm({
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       tripName: "",
       description: "",
-      itineraries: [{ cost: 0, places: [] }],
+      itineraries: [],
     },
   });
   const { fields, append, remove } = useFieldArray({
@@ -78,6 +29,7 @@ export default function NewTripForm() {
         tripName: data.tripName,
         description: data.description,
         itineraries: data.itineraries,
+        userId: auth.currentUser.uid,
       });
     } catch (error) {
       alert(error.message);
@@ -95,20 +47,18 @@ export default function NewTripForm() {
         </div>
         <TextInput
           id="trip-name"
-          required
-          {...register("tripName", { required: true })}
+          color={errors.tripName ? "failure" : "gray"}
+          helperText={errors.tripName?.message}
+          {...register("tripName", {
+            required: "Please specify name for the trip.",
+          })}
         />
       </div>
       <div className="max-w-xl">
         <div className="mb-2 block">
           <Label htmlFor="description" value="Trip description" />
         </div>
-        <Textarea
-          id="description"
-          required
-          rows={4}
-          {...register("description", { required: true })}
-        />
+        <Textarea id="description" rows={4} {...register("description")} />
       </div>
       <Label value="Itineraries:" />
       {fields.map((field, idx) => {
@@ -116,6 +66,7 @@ export default function NewTripForm() {
           <ItineraryInputCard
             key={field.id}
             itineraryIdx={idx}
+            errors={errors}
             control={control}
             register={register}
             deleteItinerary={() => {
@@ -134,5 +85,78 @@ export default function NewTripForm() {
       </Button>
       <Button type="submit">Submit</Button>
     </form>
+  );
+}
+
+function ItineraryInputCard({
+  itineraryIdx,
+  control,
+  register,
+  errors,
+  deleteItinerary,
+}) {
+  const { fields, remove, append } = useFieldArray({
+    control,
+    name: `itineraries.${itineraryIdx}.places`,
+  });
+
+  return (
+    <Card>
+      <div className="flex justify-between">
+        <h1 className="text-2xl font-bold">{`Day ${itineraryIdx + 1}`}</h1>
+        <button
+          className="w-8 h-8"
+          type="button"
+          size="xs"
+          onClick={() => deleteItinerary()}
+        >
+          <img src={CrossClose} />
+        </button>
+      </div>
+      <div>
+        <TextInput
+          addon="Rp."
+          color={errors.itineraries?.[itineraryIdx]?.cost ? "failure" : "gray"}
+          helperText={errors.itineraries?.[itineraryIdx]?.cost?.message}
+          {...register(`itineraries.${itineraryIdx}.cost`, {
+            required: "Must be a positive number.",
+            pattern: {
+              value: /^\d*\.?\d*$/,
+              message: "Must be a positive number.",
+            },
+          })}
+        ></TextInput>
+      </div>
+      <Label value="Places:" />
+      {fields.map((field, idx) => {
+        return (
+          <div key={field.id}>
+            <div className="flex">
+              <TextInput
+                className="grow"
+                {...register(`itineraries.${itineraryIdx}.places.${idx}`, {
+                  required: "Please specify your destination.",
+                })}
+              ></TextInput>
+              <Button
+                className="w-fit"
+                type="button"
+                onClick={() => remove(idx)}
+              >
+                X
+              </Button>
+            </div>
+            {errors.itineraries?.[itineraryIdx]?.places?.[idx] && (
+              <span className="text-sm text-red-600 dark:text-red-500">
+                {errors.itineraries[itineraryIdx].places[idx].message}
+              </span>
+            )}
+          </div>
+        );
+      })}
+      <Button className="w-fit" type="button" onClick={() => append("")}>
+        Add place
+      </Button>
+    </Card>
   );
 }

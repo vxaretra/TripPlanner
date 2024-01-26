@@ -6,7 +6,7 @@ import Hamburger from "./Hamburger";
 
 export default function AppLayout() {
   const { user } = useAuth();
-  const [show, setShow] = useState(() => window.innerWidth < 640 ? false : true);
+  const [show, setShow] = useState(false);
 
   if (!user) {
     return <Navigate to={"/login"} replace />;

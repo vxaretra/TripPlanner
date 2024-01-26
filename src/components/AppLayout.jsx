@@ -14,7 +14,7 @@ export default function AppLayout() {
 
   return (
     <>
-      <Sidebar className={`fixed w-64 z-40 transition-transform ${show ? "" : "-translate-x-full"} sm:translate-x-0`}>
+      <Sidebar className={`fixed w-64 z-20 transition-transform ${show ? "" : "-translate-x-full"} sm:translate-x-0`}>
         <Sidebar.Items>
           <Sidebar.ItemGroup>
             <Sidebar.Item as={Link} to="/">Home</Sidebar.Item>

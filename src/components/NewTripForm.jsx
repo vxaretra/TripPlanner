@@ -10,6 +10,8 @@ import {
 import { auth, db } from "../lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
 
+import TripFormMap from "./TripFormMap";
+
 import CrossClose from "../assets/cross-close.svg";
 import CrossBlack from "../assets/cross-black.svg";
 import MapTag from "../assets/map-tag.svg";
@@ -108,6 +110,7 @@ export default function NewTripForm() {
         </Button>
         <Button type="submit">Submit</Button>
       </form>
+      <TripFormMap show={showMap} setShow={setShowMap} />
     </FormProvider>
   );
 }
